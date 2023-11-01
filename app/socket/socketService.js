@@ -31,12 +31,10 @@ class WebSocketService {
     }
 
     sendCollectionData(socket) {
-        // MongoDB koleksiyonundan verileri çekerek istemcilere iletilir
-        const User = mongoose.model('User'); // User modelini projenize uygun şekilde güncelleyin
-        User.find({}) // Tüm belgeleri almak için uygun bir sorgu yapın
+        const User = mongoose.model('User');
+        User.find({}) 
           .exec()
           .then((data) => {
-            // Koleksiyon verilerini istemcilere iletmek
             socket.emit('collectionData', { data });
           })
           .catch((error) => {
