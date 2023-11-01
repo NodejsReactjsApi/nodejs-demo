@@ -1,6 +1,6 @@
 import express from 'express';
 import http from 'http';
-import userRoutes from './app/routes/user.js';
+import mainRoutes from './app/routes/main.js';
 import connectDB from './app/config/db.js';
 import WebSocketService from './app/socket/socketService.js';
 import dotenv from 'dotenv';
@@ -22,7 +22,7 @@ connectDB()
     console.error('MongoDB bağlantısı başarısız: ', error);
 });
 
-app.use('/user', userRoutes);
+app.use('/', mainRoutes);
 
 const port = process.env.PORT || 3000;
 
