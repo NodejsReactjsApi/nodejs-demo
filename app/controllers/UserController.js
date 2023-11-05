@@ -1,8 +1,8 @@
-import Users from '../models/Users.js';
+import UserService from "../service/UserService.js";
 class UserController {
     async getUsers(req, res) {
         try {
-            const users = await Users.find({}, { password: 0 }); 
+            const users = await UserService.getUsers(); 
             res.json({ success: true, users });
         } catch (error) {
             res.json({ success: false, message: 'Kullanıcılar getirilemedi.' });
@@ -11,14 +11,8 @@ class UserController {
 
     async saveUser(req, res) {
         try {
-            const user = new Users({
-              username: req.body.name,
-              password: req.body.password,
-              email: req.body.email,
-            });
-        
-            await user.save();
-        
+            const newUser = req.body;
+            const user = await UserService.createUser(newUser);
             res.status(201).json(user);
           } catch (error) {
             console.error(error);

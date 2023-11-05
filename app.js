@@ -4,10 +4,12 @@ import mainRoutes from './app/routes/main.js';
 import Database from './app/config/Database.js';
 import WebSocketService from './app/socket/socketService.js';
 import dotenv from 'dotenv';
+import cors from 'cors';
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 dotenv.config();
 
