@@ -3,17 +3,18 @@ import mongoose from "mongoose";
 
 class WebSocketService {
     constructor(server) {
-      this.io = new Server(server);
-      this.initialize();
-    }
-  
-    initialize() {
-      this.io.on('connection', (socket) => {
+      let io = new Server(server, {
+        cors: {
+          origin: "*",
+        }
+      });
+
+      io.on('connection', (socket) => {
         console.log('Bir istemci bağlandı.');
 
-        setInterval(() => {
-            this.sendCollectionData(socket);
-        }, 1000); // Örneğin, her saniye
+        // setInterval(() => {
+        //     this.sendCollectionData(socket);
+        // }, 1000); // Örneğin, her saniye
   
         // Örnek bir olayı dinle ve işle
         socket.on('message', (data) => {

@@ -1,6 +1,6 @@
 import Users from '../models/Users.js';
 class UserService {
-    static async getUsers(req, res) {
+    static async getUsers() {
         try {
             const users = await Users.find({}, { password: 0 }); 
             return users;
