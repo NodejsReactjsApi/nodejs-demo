@@ -17,13 +17,11 @@ class WebSocketService {
           let users = null
           await rabbitMQService.listenToUserDbQueue().then(resUsers => users = resUsers);
           socket.emit('userList', users)
-        }, 1000); // Örneğin, her saniye
+        }, 3000); 
   
-        // Örnek bir olayı dinle ve işle
         socket.on('message', (data) => {
           console.log('İstemciden gelen mesaj:', data);
   
-          // İstemcilere yanıt gönder
           socket.emit('response', 'Mesajınız alındı');
         });
   
