@@ -5,6 +5,7 @@ class UserController {
             const users = await UserService.getUsers(); 
             res.json({ success: true, users });
         } catch (error) {
+            console.log(error)
             res.json({ success: false, message: 'Kullanıcılar getirilemedi.' });
         }
     }
@@ -12,7 +13,7 @@ class UserController {
     async saveUser(req, res) {
         try {
             const newUser = req.body;
-            const user = await UserService.createUser(newUser);
+            const user = await UserService.saveUser(newUser);
             res.status(201).json(user);
           } catch (error) {
             console.error(error);
