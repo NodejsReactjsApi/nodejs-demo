@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/NodejsReactjsApi/nodejs-demo#readme",
   "dependencies": {
+    "amqplib": "^0.10.3",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
     "dotenv": "^16.3.1",

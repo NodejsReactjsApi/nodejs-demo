@@ -1,5 +1,6 @@
 import Users from '../models/Users.js';
 import RedisClient from "../redis/RedisClient.js";
+import RabbitMQService from '../rabbitmq/RabbitMQService.js';
 class UserService {
     static async getUsers() {
         try {
@@ -25,6 +26,9 @@ class UserService {
         try {
             const user = new Users({...newUser});
             await user.save();
+
+            const rabbitMQService = new RabbitMQService();
+            rabbitMQService.addToDataDbQueue(user);
           } catch (error) {
             throw error;
           }

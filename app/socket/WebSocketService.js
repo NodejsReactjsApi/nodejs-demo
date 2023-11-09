@@ -1,8 +1,9 @@
 import { Server } from "socket.io";
-import mongoose from "mongoose";
-
+import RabbitMQService from "../rabbitmq/RabbitMQService.js";
 class WebSocketService {
     constructor(server) {
+      let rabbitMQService = new RabbitMQService();
+
       let io = new Server(server, {
         cors: {
           origin: "*",
@@ -12,9 +13,11 @@ class WebSocketService {
       io.on('connection', (socket) => {
         console.log('Bir istemci bağlandı.');
 
-        // setInterval(() => {
-        //     this.sendCollectionData(socket);
-        // }, 1000); // Örneğin, her saniye
+        setInterval(async () => {
+          let users = null
+          await rabbitMQService.listenToUserDbQueue().then(resUsers => users = resUsers);
+          socket.emit('userList', users)
+        }, 1000); // Örneğin, her saniye
   
         // Örnek bir olayı dinle ve işle
         socket.on('message', (data) => {
@@ -24,23 +27,7 @@ class WebSocketService {
           socket.emit('response', 'Mesajınız alındı');
         });
   
-        // İstemcilere gerçek zamanlı veri gönderme
-        setInterval(() => {
-          socket.emit('realtimeData', { time: new Date() });
-        }, 1000);
       });
-    }
-
-    sendCollectionData(socket) {
-        const User = mongoose.model('User');
-        User.find({}) 
-          .exec()
-          .then((data) => {
-            socket.emit('collectionData', { data });
-          })
-          .catch((error) => {
-            console.error('Koleksiyon verileri alınamadı: ', error);
-          });
     }
   }
 
